@@ -25,7 +25,8 @@ jobs:
           echo "🌿 Branch: ${{ github.ref }}"
           echo "📋 Event: ${{ github.event_name }}"
           echo "TEST=${{ github.actor }}_${{ github.run_id }}" >> $GITHUB_ENV
-          echo "${{TEST}}" > test.txt
+          echo "$TEST" 
+          echo "$TEST" > test.txt
 
       - name: Build
         run: go build -v -o server ./...
