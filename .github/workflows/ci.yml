@@ -17,8 +17,24 @@ jobs:
         with:
           go-version: '1.24.0'
 
+      - name: Show GitHub context
+        run: |
+          echo "🎉 Triggered by: ${{ github.actor }}"
+          echo "🐧 Running on: ${{ runner.os }}"
+          echo "📦 Repository: ${{ github.repository }}"
+          echo "🌿 Branch: ${{ github.ref }}"
+          echo "📋 Event: ${{ github.event_name }}"
+          echo "TEST=${{ github.actor }}_${{ github.run_id }}" >> $GITHUB_ENV
+          echo "$TEST" > test.txt
+
       - name: Build
         run: go build -v ./...
 
       - name: Test
         run: go test -v ./...
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: test.txt
