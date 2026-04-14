@@ -25,15 +25,21 @@ jobs:
           echo "🌿 Branch: ${{ github.ref }}"
           echo "📋 Event: ${{ github.event_name }}"
           echo "TEST=${{ github.actor }}_${{ github.run_id }}" >> $GITHUB_ENV
-          echo "$TEST" > test.txt
+          echo "${{TEST}}" > test.txt
 
       - name: Build
-        run: go build -v ./...
+        run: go build -v -o server ./...
 
       - name: Test
         run: go test -v ./...
 
-      - name: Upload Artifact
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: server
+
+      - name: Upload test output
         uses: actions/upload-artifact@v4
         with:
           name: test-output
